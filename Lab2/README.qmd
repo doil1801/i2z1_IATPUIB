@@ -1,0 +1,256 @@
+---
+title: "Практическая работа 002"
+author: "dolgov18012005@yandex.ru"
+format: 
+  md:
+    output-file: README.md
+---
+
+## Цель работы
+
+1. Развить практические навыки использования языка программирования R для обработки данных
+2. Закрепить знания базовых типов данных языка R
+3. Развить практические навыки использования функций обработки данных пакета `dplyr` – функции `select(), filter(), mutate(), arrange(), group_by()`
+
+## Исходные данные
+
+1. Программное обеспечение Manjaro
+2. Rstudio Desktop
+3. Интерпретатор языка R 4.5.1
+
+## Задание
+
+Используя программный пакет swirl, освоить базовые
+операции в языке программирования R.
+
+## Ход работы
+
+1. Проанализировать встроенный в пакет dplyr набор данных starwars с помощью языка R и ответить на вопросы:
+    - Сколько строк в датафрейме?
+    - Сколько столбцов в датафрейме?
+    - Как просмотреть примерный вид датафрейма?
+    - Сколько уникальных рас персонажей (species) представлено в данных?
+    - Найти самого высокого персонажа.
+    - Найти всех персонажей ниже 170
+    - Подсчитать ИМТ (индекс массы тела) для всех персонажей.
+    - Найти 10 самых “вытянутых” персонажей. “Вытянутость” оценить по отношению массы (mass) к росту (height) персонажей
+    - Найти средний возраст персонажей каждой расы вселенной Звездных войн
+    - Найти самый распространенный цвет глаз персонажей вселенной Звездных войн.
+    - Подсчитать среднюю длину имени в каждой расе вселенной Звездных войн.
+2. Оформить отчет в соответствии с шаблоном
+
+
+
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+> starwars %>% nrow()
+[1] 87
+> starwars %>% ncol()
+[1] 14
+> starwars %>% glimpse()
+Rows: 87
+Columns: 14
+$ name       <chr> "Luke Skywalker", "C-3PO", "R2-D2", "Darth Vader", "Leia Organa", "O…
+$ height     <int> 172, 167, 96, 202, 150, 178, 165, 97, 183, 182, 188, 180, 228, 180, …
+$ mass       <dbl> 77.0, 75.0, 32.0, 136.0, 49.0, 120.0, 75.0, 32.0, 84.0, 77.0, 84.0, …
+$ hair_color <chr> "blond", NA, NA, "none", "brown", "brown, grey", "brown", NA, "black…
+$ skin_color <chr> "fair", "gold", "white, blue", "white", "light", "light", "light", "…
+$ eye_color  <chr> "blue", "yellow", "red", "yellow", "brown", "blue", "blue", "red", "…
+$ birth_year <dbl> 19.0, 112.0, 33.0, 41.9, 19.0, 52.0, 47.0, NA, 24.0, 57.0, 41.9, 64.…
+$ sex        <chr> "male", "none", "none", "male", "female", "male", "female", "none", …
+$ gender     <chr> "masculine", "masculine", "masculine", "masculine", "feminine", "mas…
+$ homeworld  <chr> "Tatooine", "Tatooine", "Naboo", "Tatooine", "Alderaan", "Tatooine",…
+$ species    <chr> "Human", "Droid", "Droid", "Human", "Human", "Human", "Human", "Droi…
+$ films      <list> <"A New Hope", "The Empire Strikes Back", "Return of the Jedi", "Re…
+$ vehicles   <list> <"Snowspeeder", "Imperial Speeder Bike">, <>, <>, <>, "Imperial Spe…
+$ starships  <list> <"X-wing", "Imperial shuttle">, <>, <>, "TIE Advanced x1", <>, <>, …
+> starwars %>% select(., species) %>% unique(.)
+# A tibble: 38 × 1
+   species       
+   <chr>         
+ 1 Human         
+ 2 Droid         
+ 3 Wookiee       
+ 4 Rodian        
+ 5 Hutt          
+ 6 NA            
+ 7 Yoda's species
+ 8 Trandoshan    
+ 9 Mon Calamari  
+10 Ewok          
+# ℹ 28 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> starwars %>% select(., species) %>% filter(!is.na(species)) %>% unique(.) %>% count(.)
+# A tibble: 1 × 1
+      n
+  <int>
+1    37
+> starwars %>% 
++     select(species) %>% 
++     filter(!is.na(species)) %>% 
++     n_distinct()
+[1] 37
+> 
+> 
+> starwars %>% arrange(., desc(height)) %>% select(name) %>% slice(1)
+# A tibble: 1 × 1
+  name       
+  <chr>      
+1 Yarael Poof
+> starwars %>% 
++     arrange(desc(height)) %>% 
++     slice(1) %>% 
++     select(name)
+# A tibble: 1 × 1
+  name       
+  <chr>      
+1 Yarael Poof
+> 
+> 
+> starwars %>% filter(height < 170)
+# A tibble: 22 × 14
+   name    height  mass hair_color skin_color eye_color birth_year sex   gender homeworld
+   <chr>    <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr>  <chr>    
+ 1 C-3PO      167    75 NA         gold       yellow           112 none  mascu… Tatooine 
+ 2 R2-D2       96    32 NA         white, bl… red               33 none  mascu… Naboo    
+ 3 Leia O…    150    49 brown      light      brown             19 fema… femin… Alderaan 
+ 4 Beru W…    165    75 brown      light      blue              47 fema… femin… Tatooine 
+ 5 R5-D4       97    32 NA         white, red red               NA none  mascu… Tatooine 
+ 6 Yoda        66    17 white      green      brown            896 male  mascu… NA       
+ 7 Mon Mo…    150    NA auburn     fair       blue              48 fema… femin… Chandrila
+ 8 Wicket…     88    20 brown      brown      brown              8 male  mascu… Endor    
+ 9 Nien N…    160    68 none       grey       black             NA male  mascu… Sullust  
+10 Watto      137    NA black      blue, grey yellow            NA male  mascu… Toydaria 
+# ℹ 12 more rows
+# ℹ 4 more variables: species <chr>, films <list>, vehicles <list>, starships <list>
+# ℹ Use `print(n = ...)` to see more rows
+> 
+> starwars %>% mutate(., imt = mass / (height^2)) %>% select(., name, imt)
+# A tibble: 87 × 2
+   name                   imt
+   <chr>                <dbl>
+ 1 Luke Skywalker     0.00260
+ 2 C-3PO              0.00269
+ 3 R2-D2              0.00347
+ 4 Darth Vader        0.00333
+ 5 Leia Organa        0.00218
+ 6 Owen Lars          0.00379
+ 7 Beru Whitesun Lars 0.00275
+ 8 R5-D4              0.00340
+ 9 Biggs Darklighter  0.00251
+10 Obi-Wan Kenobi     0.00232
+# ℹ 77 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> starwars %>% 
++     mutate("I" = mass / height ^ 2) %>% 
++     select(name, I)
+# A tibble: 87 × 2
+   name                     I
+   <chr>                <dbl>
+ 1 Luke Skywalker     0.00260
+ 2 C-3PO              0.00269
+ 3 R2-D2              0.00347
+ 4 Darth Vader        0.00333
+ 5 Leia Organa        0.00218
+ 6 Owen Lars          0.00379
+ 7 Beru Whitesun Lars 0.00275
+ 8 R5-D4              0.00340
+ 9 Biggs Darklighter  0.00251
+10 Obi-Wan Kenobi     0.00232
+# ℹ 77 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> 
+> 
+> 
+> starwars %>% 
++     mutate(., vut = mass / height) %>% 
++     select(., name, vut) %>%
++     arrange(., asc(vut)) %>%
++     slice(., 10)
+Error in `arrange()`:
+ℹ In argument: `..1 = asc(vut)`.
+Caused by error in `asc()`:
+! could not find function "asc"
+Run `rlang::last_trace()` to see where the error occurred.
+
+> starwars %>% 
++     mutate(., vut = mass / height) %>% 
++     select(., name, vut) %>%
++     arrange(., vut) %>%
++     slice(., 10)
+# A tibble: 1 × 2
+  name       vut
+  <chr>    <dbl>
+1 Shaak Ti 0.320
+> starwars %>% 
++     mutate(., vut = mass / height) %>% 
++     select(., name, vut) %>%
++     arrange(., vut) %>%
++     slice(., 1:10)
+# A tibble: 10 × 2
+   name                    vut
+   <chr>                 <dbl>
+ 1 Ratts Tyerel          0.190
+ 2 Wicket Systri Warrick 0.227
+ 3 Padmé Amidala         0.243
+ 4 Wat Tambor            0.249
+ 5 Yoda                  0.258
+ 6 Sly Moore             0.270
+ 7 Adi Gallia            0.272
+ 8 Barriss Offee         0.301
+ 9 Ayla Secura           0.309
+10 Shaak Ti              0.320
+> 
+> 
+> starwars %>% 
++     mutate("V" = mass / height) %>% 
++     arrange(desc(V)) %>% 
++     slice(1:10) %>% 
++     select(name, V)
+# A tibble: 10 × 2
+   name                      V
+   <chr>                 <dbl>
+ 1 Jabba Desilijic Tiure 7.76 
+ 2 Grievous              0.736
+ 3 IG-88                 0.7  
+ 4 Owen Lars             0.674
+ 5 Darth Vader           0.673
+ 6 Jek Tono Porkins      0.611
+ 7 Bossk                 0.595
+ 8 Tarfful               0.581
+ 9 Dexter Jettster       0.515
+10 Chewbacca             0.491
+> 
+> 
+> 
+> 
+> starwars %>% 
++     group_by(., species) %>% 
++     summarise(., mean(height))
+# A tibble: 38 × 2
+   species   `mean(height)`
+   <chr>              <dbl>
+ 1 Aleena               79 
+ 2 Besalisk            198 
+ 3 Cerean              198 
+ 4 Chagrian            196 
+ 5 Clawdite            168 
+ 6 Droid                NA 
+ 7 Dug                 112 
+ 8 Ewok                 88 
+ 9 Geonosian           183 
+10 Gungan              209.
+# ℹ 28 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> 
+
+### Шаг 1
