@@ -52,10 +52,13 @@ The following objects are masked from ‘package:stats’:
 The following objects are masked from ‘package:base’:
 
     intersect, setdiff, setequal, union
+
 > starwars %>% nrow()
 [1] 87
+
 > starwars %>% ncol()
 [1] 14
+
 > starwars %>% glimpse()
 Rows: 87
 Columns: 14
@@ -73,166 +76,167 @@ $ species    <chr> "Human", "Droid", "Droid", "Human", "Human", "Human", "Human"
 $ films      <list> <"A New Hope", "The Empire Strikes Back", "Return of the Jedi", "Re…
 $ vehicles   <list> <"Snowspeeder", "Imperial Speeder Bike">, <>, <>, <>, "Imperial Spe…
 $ starships  <list> <"X-wing", "Imperial shuttle">, <>, <>, "TIE Advanced x1", <>, <>, …
-> starwars %>% select(., species) %>% unique(.)
-# A tibble: 38 × 1
-   species       
-   <chr>         
- 1 Human         
- 2 Droid         
- 3 Wookiee       
- 4 Rodian        
- 5 Hutt          
- 6 NA            
- 7 Yoda's species
- 8 Trandoshan    
- 9 Mon Calamari  
-10 Ewok          
-# ℹ 28 more rows
-# ℹ Use `print(n = ...)` to see more rows
-> starwars %>% select(., species) %>% filter(!is.na(species)) %>% unique(.) %>% count(.)
-# A tibble: 1 × 1
-      n
-  <int>
-1    37
-> starwars %>% 
-+     select(species) %>% 
-+     filter(!is.na(species)) %>% 
-+     n_distinct()
-[1] 37
-> 
-> 
-> starwars %>% arrange(., desc(height)) %>% select(name) %>% slice(1)
-# A tibble: 1 × 1
-  name       
-  <chr>      
-1 Yarael Poof
-> starwars %>% 
-+     arrange(desc(height)) %>% 
-+     slice(1) %>% 
-+     select(name)
-# A tibble: 1 × 1
-  name       
-  <chr>      
-1 Yarael Poof
-> 
-> 
-> starwars %>% filter(height < 170)
-# A tibble: 22 × 14
-   name    height  mass hair_color skin_color eye_color birth_year sex   gender homeworld
-   <chr>    <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr>  <chr>    
- 1 C-3PO      167    75 NA         gold       yellow           112 none  mascu… Tatooine 
- 2 R2-D2       96    32 NA         white, bl… red               33 none  mascu… Naboo    
- 3 Leia O…    150    49 brown      light      brown             19 fema… femin… Alderaan 
- 4 Beru W…    165    75 brown      light      blue              47 fema… femin… Tatooine 
- 5 R5-D4       97    32 NA         white, red red               NA none  mascu… Tatooine 
- 6 Yoda        66    17 white      green      brown            896 male  mascu… NA       
- 7 Mon Mo…    150    NA auburn     fair       blue              48 fema… femin… Chandrila
- 8 Wicket…     88    20 brown      brown      brown              8 male  mascu… Endor    
- 9 Nien N…    160    68 none       grey       black             NA male  mascu… Sullust  
-10 Watto      137    NA black      blue, grey yellow            NA male  mascu… Toydaria 
-# ℹ 12 more rows
-# ℹ 4 more variables: species <chr>, films <list>, vehicles <list>, starships <list>
-# ℹ Use `print(n = ...)` to see more rows
-> 
-> starwars %>% mutate(., imt = mass / (height^2)) %>% select(., name, imt)
-# A tibble: 87 × 2
-   name                   imt
-   <chr>                <dbl>
- 1 Luke Skywalker     0.00260
- 2 C-3PO              0.00269
- 3 R2-D2              0.00347
- 4 Darth Vader        0.00333
- 5 Leia Organa        0.00218
- 6 Owen Lars          0.00379
- 7 Beru Whitesun Lars 0.00275
- 8 R5-D4              0.00340
- 9 Biggs Darklighter  0.00251
-10 Obi-Wan Kenobi     0.00232
-# ℹ 77 more rows
-# ℹ Use `print(n = ...)` to see more rows
-> starwars %>% 
-+     mutate("I" = mass / height ^ 2) %>% 
-+     select(name, I)
-# A tibble: 87 × 2
-   name                     I
-   <chr>                <dbl>
- 1 Luke Skywalker     0.00260
- 2 C-3PO              0.00269
- 3 R2-D2              0.00347
- 4 Darth Vader        0.00333
- 5 Leia Organa        0.00218
- 6 Owen Lars          0.00379
- 7 Beru Whitesun Lars 0.00275
- 8 R5-D4              0.00340
- 9 Biggs Darklighter  0.00251
-10 Obi-Wan Kenobi     0.00232
-# ℹ 77 more rows
-# ℹ Use `print(n = ...)` to see more rows
-> 
-> 
-> 
-> starwars %>% 
-+     mutate(., vut = mass / height) %>% 
-+     select(., name, vut) %>%
-+     arrange(., asc(vut)) %>%
-+     slice(., 10)
-Error in `arrange()`:
-ℹ In argument: `..1 = asc(vut)`.
-Caused by error in `asc()`:
-! could not find function "asc"
-Run `rlang::last_trace()` to see where the error occurred.
 
-> starwars %>% 
-+     mutate(., vut = mass / height) %>% 
-+     select(., name, vut) %>%
-+     arrange(., vut) %>%
-+     slice(., 10)
-# A tibble: 1 × 2
-  name       vut
-  <chr>    <dbl>
-1 Shaak Ti 0.320
-> starwars %>% 
-+     mutate(., vut = mass / height) %>% 
-+     select(., name, vut) %>%
-+     arrange(., vut) %>%
-+     slice(., 1:10)
-# A tibble: 10 × 2
-   name                    vut
-   <chr>                 <dbl>
- 1 Ratts Tyerel          0.190
- 2 Wicket Systri Warrick 0.227
- 3 Padmé Amidala         0.243
- 4 Wat Tambor            0.249
- 5 Yoda                  0.258
- 6 Sly Moore             0.270
- 7 Adi Gallia            0.272
- 8 Barriss Offee         0.301
- 9 Ayla Secura           0.309
-10 Shaak Ti              0.320
-> 
-> 
-> starwars %>% 
-+     mutate("V" = mass / height) %>% 
-+     arrange(desc(V)) %>% 
-+     slice(1:10) %>% 
-+     select(name, V)
-# A tibble: 10 × 2
-   name                      V
-   <chr>                 <dbl>
- 1 Jabba Desilijic Tiure 7.76 
- 2 Grievous              0.736
- 3 IG-88                 0.7  
- 4 Owen Lars             0.674
- 5 Darth Vader           0.673
- 6 Jek Tono Porkins      0.611
- 7 Bossk                 0.595
- 8 Tarfful               0.581
- 9 Dexter Jettster       0.515
-10 Chewbacca             0.491
-> 
-> 
-> 
-> 
+> starwars %>% select(., species) %>% unique(.) |> knitr::kable(format = "markdown")
+
+
+> starwars %>% select(., species) %>% filter(!is.na(species)) %>% unique(.) %>% count(.) |> knitr::kable(format = "markdown")
+
+
+|  n|
+|--:|
+| 37|
+
+
+> starwars %>% arrange(., desc(height)) %>% select(name) %>% slice(1)  |> knitr::kable(format = "markdown")
+
+
+|name        |
+|:-----------|
+|Yarael Poof |
+
+ 
+> starwars %>% filter(height < 170) %>% select(., name, height)|> knitr::kable(format = "markdown")
+
+
+|name                  | height|
+|:---------------------|------:|
+|C-3PO                 |    167|
+|R2-D2                 |     96|
+|Leia Organa           |    150|
+|Beru Whitesun Lars    |    165|
+|R5-D4                 |     97|
+|Yoda                  |     66|
+|Mon Mothma            |    150|
+|Wicket Systri Warrick |     88|
+|Nien Nunb             |    160|
+|Watto                 |    137|
+|Sebulba               |    112|
+|Shmi Skywalker        |    163|
+|Ratts Tyerel          |     79|
+|Dud Bolt              |     94|
+|Gasgano               |    122|
+|Ben Quadinaros        |    163|
+|Cordé                 |    157|
+|Barriss Offee         |    166|
+|Dormé                 |    165|
+|Zam Wesell            |    168|
+|Jocasta Nu            |    167|
+|R4-P17                |     96|
+
+
+> starwars %>% mutate(., imt = mass / (height^2)) %>% select(., name, imt) |> knitr::kable(format = "markdown")
+
+
+|name                  |       imt|
+|:---------------------|---------:|
+|Luke Skywalker        | 0.0026028|
+|C-3PO                 | 0.0026892|
+|R2-D2                 | 0.0034722|
+|Darth Vader           | 0.0033330|
+|Leia Organa           | 0.0021778|
+|Owen Lars             | 0.0037874|
+|Beru Whitesun Lars    | 0.0027548|
+|R5-D4                 | 0.0034010|
+|Biggs Darklighter     | 0.0025083|
+|Obi-Wan Kenobi        | 0.0023246|
+|Anakin Skywalker      | 0.0023766|
+|Wilhuff Tarkin        |        NA|
+|Chewbacca             | 0.0021545|
+|Han Solo              | 0.0024691|
+|Greedo                | 0.0024725|
+|Jabba Desilijic Tiure | 0.0443429|
+|Wedge Antilles        | 0.0026644|
+|Jek Tono Porkins      | 0.0033951|
+|Yoda                  | 0.0039027|
+|Palpatine             | 0.0025952|
+|Boba Fett             | 0.0023351|
+|IG-88                 | 0.0035000|
+|Bossk                 | 0.0031302|
+|Lando Calrissian      | 0.0025216|
+|Lobot                 | 0.0025796|
+|Ackbar                | 0.0025617|
+|Mon Mothma            |        NA|
+|Arvel Crynyd          |        NA|
+|Wicket Systri Warrick | 0.0025826|
+|Nien Nunb             | 0.0026563|
+|Qui-Gon Jinn          | 0.0023893|
+|Nute Gunray           | 0.0024670|
+|Finis Valorum         |        NA|
+|Padmé Amidala         | 0.0013148|
+|Jar Jar Binks         | 0.0017180|
+|Roos Tarpals          | 0.0016342|
+|Rugor Nass            |        NA|
+|Ric Olié              |        NA|
+|Watto                 |        NA|
+|Sebulba               | 0.0031888|
+|Quarsh Panaka         |        NA|
+|Shmi Skywalker        |        NA|
+|Darth Maul            | 0.0026122|
+|Bib Fortuna           |        NA|
+|Ayla Secura           | 0.0017359|
+|Ratts Tyerel          | 0.0024035|
+|Dud Bolt              | 0.0050928|
+|Gasgano               |        NA|
+|Ben Quadinaros        | 0.0024465|
+|Mace Windu            | 0.0023766|
+|Ki-Adi-Mundi          | 0.0020916|
+|Kit Fisto             | 0.0022647|
+|Eeth Koth             |        NA|
+|Adi Gallia            | 0.0014768|
+|Saesee Tiin           |        NA|
+|Yarael Poof           |        NA|
+|Plo Koon              | 0.0022635|
+|Mas Amedda            |        NA|
+|Gregar Typho          | 0.0024836|
+|Cordé                 |        NA|
+|Cliegg Lars           |        NA|
+|Poggle the Lesser     | 0.0023888|
+|Luminara Unduli       | 0.0019446|
+|Barriss Offee         | 0.0018145|
+|Dormé                 |        NA|
+|Dooku                 | 0.0021477|
+|Bail Prestor Organa   |        NA|
+|Jango Fett            | 0.0023590|
+|Zam Wesell            | 0.0019487|
+|Dexter Jettster       | 0.0026018|
+|Lama Su               | 0.0016781|
+|Taun We               |        NA|
+|Jocasta Nu            |        NA|
+|R4-P17                |        NA|
+|Wat Tambor            | 0.0012886|
+|San Hill              |        NA|
+|Shaak Ti              | 0.0017990|
+|Grievous              | 0.0034079|
+|Tarfful               | 0.0024837|
+|Raymus Antilles       | 0.0022352|
+|Sly Moore             | 0.0015150|
+|Tion Medon            | 0.0018852|
+|Finn                  |        NA|
+|Rey                   |        NA|
+|Poe Dameron           |        NA|
+|BB8                   |        NA|
+|Captain Phasma        |        NA|
+
+
+ 
+> starwars %>% mutate(., vut = mass / height) %>% select(., name, vut) %>% arrange(., vut) %>% slice(., 1:10) |> knitr::kable(format = "markdown")
+
+
+|name                  |       vut|
+|:---------------------|---------:|
+|Ratts Tyerel          | 0.1898734|
+|Wicket Systri Warrick | 0.2272727|
+|Padmé Amidala         | 0.2432432|
+|Wat Tambor            | 0.2487047|
+|Yoda                  | 0.2575758|
+|Sly Moore             | 0.2696629|
+|Adi Gallia            | 0.2717391|
+|Barriss Offee         | 0.3012048|
+|Ayla Secura           | 0.3089888|
+|Shaak Ti              | 0.3202247|
+
+
 > starwars %>% 
 +     group_by(., species) %>% 
 +     summarise(., mean(height))
