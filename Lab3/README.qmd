@@ -1,0 +1,71 @@
+---
+title: "Практическая работа 003"
+author: "dolgov18012005@yandex.ru"
+format: 
+  md:
+    output-file: README.md
+---
+
+## Цель работы
+
+1. Развить практические навыки использования языка программирования R для обработки данных
+2. Закрепить знания базовых типов данных языка R
+3. Развить практические навыки использования функций обработки данных пакета `dplyr` – функции `select(), filter(), mutate(), arrange(), group_by()`
+
+## Исходные данные
+
+1. Программное обеспечение Manjaro
+2. Rstudio Desktop
+3. Интерпретатор языка R 4.5.1
+
+## Задание
+
+Используя программный пакет dplyr, освоить базовые
+операции в языке программирования R.
+
+## Ход работы
+
+1. Проанализировать встроенный в пакет dplyr набор данных starwars с помощью языка R и ответить на вопросы:
+    - Сколько строк в датафрейме?
+    - Сколько столбцов в датафрейме?
+    - Как просмотреть примерный вид датафрейма?
+    - Сколько уникальных рас персонажей (species) представлено в данных?
+    - Найти самого высокого персонажа.
+    - Найти всех персонажей ниже 170
+    - Подсчитать ИМТ (индекс массы тела) для всех персонажей.
+    - Найти 10 самых “вытянутых” персонажей. “Вытянутость” оценить по отношению массы (mass) к росту (height) персонажей
+    - Найти средний возраст персонажей каждой расы вселенной Звездных войн
+    - Найти самый распространенный цвет глаз персонажей вселенной Звездных войн.
+    - Подсчитать среднюю длину имени в каждой расе вселенной Звездных войн.
+2. Оформить отчет в соответствии с шаблоном
+
+
+
+
+
+> install.packages('nycflights13')
+Installing package into ‘/home/doil/R/x86_64-pc-linux-gnu-library/4.5’
+(as ‘lib’ is unspecified)
+trying URL 'https://mirror.truenetwork.ru/CRAN/src/contrib/nycflights13_1.0.2.tar.gz'
+Content type 'application/octet-stream' length 4504033 bytes (4.3 MB)
+==================================================
+downloaded 4.3 MB
+
+* installing *source* package ‘nycflights13’ ...
+** this is package ‘nycflights13’ version ‘1.0.2’
+** package ‘nycflights13’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (nycflights13)
+
+The downloaded source packages are in
+	‘/tmp/RtmpFvMiwR/downloaded_packages’

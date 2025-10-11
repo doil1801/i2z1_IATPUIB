@@ -54,6 +54,38 @@ dolgov18012005@yandex.ru
 
 ![](./imgs/img2.png)
 
+``` r
+sessionInfo()
+```
+
+    R version 4.5.1 (2025-06-13)
+    Platform: x86_64-pc-linux-gnu
+    Running under: Manjaro Linux
+
+    Matrix products: default
+    BLAS:   /usr/lib/libblas.so.3.12.0 
+    LAPACK: /usr/lib/liblapack.so.3.12.0  LAPACK version 3.12.0
+
+    locale:
+     [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+     [3] LC_TIME=ru_RU.UTF-8        LC_COLLATE=en_US.UTF-8    
+     [5] LC_MONETARY=ru_RU.UTF-8    LC_MESSAGES=en_US.UTF-8   
+     [7] LC_PAPER=ru_RU.UTF-8       LC_NAME=C                 
+     [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+    [11] LC_MEASUREMENT=ru_RU.UTF-8 LC_IDENTIFICATION=C       
+
+    time zone: Europe/Moscow
+    tzcode source: system (glibc)
+
+    attached base packages:
+    [1] stats     graphics  grDevices utils     datasets  methods   base     
+
+    loaded via a namespace (and not attached):
+     [1] compiler_4.5.1    fastmap_1.2.0     cli_3.6.5         tools_4.5.1      
+     [5] htmltools_0.5.8.1 yaml_2.3.10       rmarkdown_2.29    knitr_1.50       
+     [9] jsonlite_2.0.0    xfun_0.53         digest_0.6.37     rlang_1.1.6      
+    [13] evaluate_1.0.5   
+
 ### Шаг 3
 
 Установим программный пакет swirl с помощью install.packages(“swirl”)

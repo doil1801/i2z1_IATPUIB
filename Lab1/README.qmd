@@ -49,11 +49,17 @@ format:
 
 ![](./imgs/img1.png)
 
+
 ### Шаг 2
 
 Установим Rstudio IDE 
 
 ![](./imgs/img2.png)
+
+```{R}
+sessionInfo()
+```
+
 
 ### Шаг 3
 
