@@ -1,0 +1,67 @@
+# Практическая работа 003
+dolgov18012005@yandex.ru
+
+## Цель работы
+
+1.  Развить практические навыки использования языка программирования R
+    для обработки данных
+2.  Закрепить знания базовых типов данных языка R
+3.  Развить практические навыки использования функций обработки данных
+    пакета `dplyr` – функции
+    `select(), filter(), mutate(), arrange(), group_by()`
+
+## Исходные данные
+
+1.  Программное обеспечение Manjaro
+2.  Rstudio Desktop
+3.  Интерпретатор языка R 4.5.1
+
+## Задание
+
+Используя программный пакет dplyr, освоить базовые операции в языке
+программирования R.
+
+## Ход работы
+
+1.  Проанализировать встроенные в пакет nycflights13 наборы данных с
+    помощью языка R и ответить на вопросы:
+    -   Сколько встроенных в пакет nycflights13 датафреймов?
+    -   Сколько строк в каждом датафрейме?
+    -   Сколько столбцов в каждом датафрейме?
+    -   Как просмотреть примерный вид датафрейма?
+    -   Сколько компаний-перевозчиков (carrier) учитывают эти наборы
+        данных (представлено в наборах данных)?
+    -   Сколько рейсов принял аэропорт John F Kennedy Intl в мае?
+    -   Какой самый северный аэропорт?
+    -   Какой аэропорт самый высокогорный (находится выше всех над
+        уровнем моря)?
+    -   Какие бортовые номера у самых старых самолетов?
+    -   Какая средняя температура воздуха была в сентябре в аэропорту
+        John FKennedy Intl (в градусах Цельсия).
+    -   Самолеты какой авиакомпании совершили больше всего вылетов в
+        июне?
+    -   Самолеты какой авиакомпании задерживались чаще других в 2013
+        году?
+2.  Оформить отчет в соответствии с шаблоном
+
+> install.packages(‘nycflights13’) Installing package into
+> ‘/home/doil/R/x86_64-pc-linux-gnu-library/4.5’ (as ‘lib’ is
+> unspecified) trying URL
+> ‘https://mirror.truenetwork.ru/CRAN/src/contrib/nycflights13_1.0.2.tar.gz’
+> Content type ‘application/octet-stream’ length 4504033 bytes (4.3 MB)
+> ================================================== downloaded 4.3 MB
+
+-   installing *source* package ‘nycflights13’ … \*\* this is package
+    ‘nycflights13’ version ‘1.0.2’ \*\* package ‘nycflights13’
+    successfully unpacked and MD5 sums checked \*\* using staged
+    installation \*\* R \*\* data \*\*\* moving datasets to lazyload DB
+    \*\* byte-compile and prepare package for lazy loading \*\* help
+    \*\*\* installing help indices \*\* building package indices \*\*
+    testing if installed package can be loaded from temporary location
+    \*\* testing if installed package can be loaded from final location
+    \*\* testing if installed package keeps a record of temporary
+    installation path
+-   DONE (nycflights13)
+
+The downloaded source packages are in
+‘/tmp/RtmpFvMiwR/downloaded_packages’
