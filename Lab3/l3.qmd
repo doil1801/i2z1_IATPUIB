@@ -20,12 +20,12 @@ format:
 
 ## Задание
 
-Используя программный пакет dplyr, освоить базовые
-операции в языке программирования R.
+Используя программный пакет dplyr, освоить базовые операции в языке программирования R.
 
 ## Ход работы
 
-1. Проанализировать встроенные в пакет nycflights13 наборы данных с помощью
+1. Установить nycflight13
+2. Проанализировать встроенные в пакет nycflights13 наборы данных с помощью
 языка R и ответить на вопросы:
     - Сколько встроенных в пакет nycflights13 датафреймов?
     - Сколько строк в каждом датафрейме?
@@ -39,8 +39,12 @@ format:
     - Какая средняя температура воздуха была в сентябре в аэропорту John FKennedy Intl (в градусах Цельсия).
     - Самолеты какой авиакомпании совершили больше всего вылетов в июне?
     - Самолеты какой авиакомпании задерживались чаще других в 2013 году?
-2. Оформить отчет в соответствии с шаблоном
+3. Оформить отчет в соответствии с шаблоном
 
+
+### Шаг 1
+
+Установим пакет с помощью install.packages('nycflights13')
 
 ```
 > install.packages('nycflights13')
@@ -70,3 +74,149 @@ downloaded 4.3 MB
 The downloaded source packages are in
 	‘/tmp/RtmpFvMiwR/downloaded_packages’
 ```
+
+### Шаг 2
+
+Подключим необходимые библиотеки
+
+```{r}
+library(nycflights13)
+```
+
+```{r}
+library(dplyr)
+```
+
+
+#### Сколько встроенных в пакет nycflights13 датафреймов?
+
+```{r}
+length(data(package = "nycflights13")$results[, "Item"])
+```
+
+#### Сколько строк в каждом датафрейме?
+
+```{r}
+flights %>% nrow()
+```
+
+```{r}
+weather %>% nrow()
+```
+
+```{r}
+planes %>% nrow()
+```
+
+```{r}
+airports %>% nrow()
+```
+
+```{r}
+airlines %>% nrow()
+```
+
+#### Сколько столбцов в каждом датафрейме?
+
+
+```{r}
+flights %>% ncol()
+```
+
+```{r}
+weather %>% ncol()
+```
+
+```{r}
+planes %>% ncol()
+```
+
+```{r}
+airports %>% ncol()
+```
+
+```{r}
+airlines %>% ncol()
+```
+
+#### Как просмотреть примерный вид датафрейма?
+
+```{r}
+flights %>% glimpse()
+```
+
+```{r}
+weather %>% glimpse()
+```
+
+```{r}
+planes %>% glimpse()
+```
+
+```{r}
+airports %>% glimpse()
+```
+
+```{r}
+airlines %>% glimpse()
+```
+
+#### Сколько компаний-перевозчиков (carrier) учитывают эти наборы данных (представлено в наборах данных)?
+
+```{r}
+airlines %>% select(carrier) %>% n_distinct()
+```
+
+
+#### Сколько рейсов принял аэропорт John F Kennedy Intl в мае?
+
+```{r}
+flights %>% left_join(., airports, by=c("origin"="faa")) %>% filter(., name == "John F Kennedy Intl" & month == 5) %>% nrow()
+```
+
+
+#### Какой самый северный аэропорт?
+
+
+```{r}
+airports %>% arrange(., desc(lon)) %>% select(name) %>%slice(1) %>% pull(.)
+```
+
+
+#### Какой аэропорт самый высокогорный (находится выше всех над уровнем моря)?
+
+
+```{r}
+airports %>% arrange(., desc(alt)) %>% select(name) %>%slice(1) %>% pull(.)
+```
+
+#### Какие бортовые номера у самых старых самолетов?
+
+```{r}
+planes %>% arrange(., year) %>% select(tailnum) %>% head() |> knitr::kable(format = "markdown")
+```
+
+
+#### Какая средняя температура воздуха была в сентябре в аэропорту John F Kennedy Intl (в градусах Цельсия).
+
+```{r}
+weather %>% left_join(., airports, by=c("origin"="faa")) %>% filter(name == "John F Kennedy Intl" & month == 9) %>% summarise(., mean_temp = mean(temp)) %>% summarise(., res = 5/9 * (mean_temp-32) ) %>% select(., res) %>% pull(.)
+```
+
+#### Самолеты какой авиакомпании совершили больше всего вылетов в июне?
+
+```{r}
+flights %>% left_join(., airlines, join_by(carrier)) %>% filter(., month == 6)%>%group_by(., name) %>% summarise(., amount = n()) %>% arrange(., desc(amount)) %>% slice(., 1) %>% select(., name) %>% pull(.)
+```
+
+
+#### Самолеты какой авиакомпании задерживались чаще других в 2013 году?
+
+```{r}
+flights %>% left_join(., airlines, join_by(carrier)) %>% group_by(., name) %>% filter(., arr_delay > 0 & year == 2013) %>% summarise(., amount = n()) %>% arrange(., desc(amount)) %>% slice(., 1) %>% select(., name) %>% pull(.)  
+```
+
+
+### Шаг 3
+
+Отчёт написан и оформлен

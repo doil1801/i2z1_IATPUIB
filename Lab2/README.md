@@ -64,37 +64,48 @@ library(dplyr)
 
 #### Сколько строк в датафрейме?
 
-    > starwars %>% nrow()
+``` r
+starwars %>% nrow()
+```
+
     [1] 87
 
 #### Сколько столбцов в датафрейме?
 
-    > starwars %>% ncol()
+``` r
+starwars %>% ncol()
+```
+
     [1] 14
 
 #### Как просмотреть примерный вид датафрейма?
 
-    > starwars %>% glimpse()
+``` r
+starwars %>% glimpse()
+```
+
     Rows: 87
     Columns: 14
-    $ name       <chr> "Luke Skywalker", "C-3PO", "R2-D2", "Darth Vader", "Leia Organa", "O…
-    $ height     <int> 172, 167, 96, 202, 150, 178, 165, 97, 183, 182, 188, 180, 228, 180, …
-    $ mass       <dbl> 77.0, 75.0, 32.0, 136.0, 49.0, 120.0, 75.0, 32.0, 84.0, 77.0, 84.0, …
-    $ hair_color <chr> "blond", NA, NA, "none", "brown", "brown, grey", "brown", NA, "black…
-    $ skin_color <chr> "fair", "gold", "white, blue", "white", "light", "light", "light", "…
-    $ eye_color  <chr> "blue", "yellow", "red", "yellow", "brown", "blue", "blue", "red", "…
-    $ birth_year <dbl> 19.0, 112.0, 33.0, 41.9, 19.0, 52.0, 47.0, NA, 24.0, 57.0, 41.9, 64.…
-    $ sex        <chr> "male", "none", "none", "male", "female", "male", "female", "none", …
-    $ gender     <chr> "masculine", "masculine", "masculine", "masculine", "feminine", "mas…
-    $ homeworld  <chr> "Tatooine", "Tatooine", "Naboo", "Tatooine", "Alderaan", "Tatooine",…
-    $ species    <chr> "Human", "Droid", "Droid", "Human", "Human", "Human", "Human", "Droi…
-    $ films      <list> <"A New Hope", "The Empire Strikes Back", "Return of the Jedi", "Re…
-    $ vehicles   <list> <"Snowspeeder", "Imperial Speeder Bike">, <>, <>, <>, "Imperial Spe…
-    $ starships  <list> <"X-wing", "Imperial shuttle">, <>, <>, "TIE Advanced x1", <>, <>, …
+    $ name       <chr> "Luke Skywalker", "C-3PO", "R2-D2", "Darth Vader", "Leia Or…
+    $ height     <int> 172, 167, 96, 202, 150, 178, 165, 97, 183, 182, 188, 180, 2…
+    $ mass       <dbl> 77.0, 75.0, 32.0, 136.0, 49.0, 120.0, 75.0, 32.0, 84.0, 77.…
+    $ hair_color <chr> "blond", NA, NA, "none", "brown", "brown, grey", "brown", N…
+    $ skin_color <chr> "fair", "gold", "white, blue", "white", "light", "light", "…
+    $ eye_color  <chr> "blue", "yellow", "red", "yellow", "brown", "blue", "blue",…
+    $ birth_year <dbl> 19.0, 112.0, 33.0, 41.9, 19.0, 52.0, 47.0, NA, 24.0, 57.0, …
+    $ sex        <chr> "male", "none", "none", "male", "female", "male", "female",…
+    $ gender     <chr> "masculine", "masculine", "masculine", "masculine", "femini…
+    $ homeworld  <chr> "Tatooine", "Tatooine", "Naboo", "Tatooine", "Alderaan", "T…
+    $ species    <chr> "Human", "Droid", "Droid", "Human", "Human", "Human", "Huma…
+    $ films      <list> <"A New Hope", "The Empire Strikes Back", "Return of the J…
+    $ vehicles   <list> <"Snowspeeder", "Imperial Speeder Bike">, <>, <>, <>, "Imp…
+    $ starships  <list> <"X-wing", "Imperial shuttle">, <>, <>, "TIE Advanced x1",…
 
 #### Сколько уникальных рас персонажей (species) представлено в данных?
 
-    > starwars %>% select(., species) %>% filter(!is.na(species)) %>% unique(.) %>% count(.) |> knitr::kable(format = "markdown")
+``` r
+starwars %>% select(., species) %>% filter(!is.na(species)) %>% unique(.) %>% count(.) |> knitr::kable(format = "markdown")
+```
 
 <table>
 <thead>
@@ -111,7 +122,9 @@ library(dplyr)
 
 #### Найти самого высокого персонажа.
 
-    > starwars %>% arrange(., desc(height)) %>% select(name) %>% slice(1)  |> knitr::kable(format = "markdown")
+``` r
+starwars %>% arrange(., desc(height)) %>% select(name) %>% slice(1)  |> knitr::kable(format = "markdown")
+```
 
 <table>
 <thead>
@@ -128,7 +141,9 @@ library(dplyr)
 
 #### Найти всех персонажей ниже 170
 
-    > starwars %>% filter(height < 170) %>% select(., name, height)|> knitr::kable(format = "markdown")
+``` r
+starwars %>% filter(height < 170) %>% select(., name, height)|> knitr::kable(format = "markdown")
+```
 
 <table>
 <thead>
@@ -231,7 +246,9 @@ library(dplyr)
 
 #### Подсчитать ИМТ (индекс массы тела) для всех персонажей.
 
-    > starwars %>% mutate(., imt = mass / (height^2)) %>% select(., name, imt) |> knitr::kable(format = "markdown")
+``` r
+starwars %>% mutate(., imt = mass / (height^2)) %>% select(., name, imt) |> knitr::kable(format = "markdown")
+```
 
 <table>
 <thead>
@@ -594,7 +611,9 @@ library(dplyr)
 
 #### Найти 10 самых “вытянутых” персонажей. “Вытянутость” оценить по отношению массы (mass) к росту (height) персонажей
 
-    > starwars %>% mutate(., vut = mass / height) %>% select(., name, vut) %>% arrange(., vut) %>% slice(., 1:10) |> knitr::kable(format = "markdown")
+``` r
+starwars %>% mutate(., vut = mass / height) %>% select(., name, vut) %>% arrange(., vut) %>% slice(., 1:10) |> knitr::kable(format = "markdown")
+```
 
 <table>
 <thead>
@@ -649,7 +668,9 @@ library(dplyr)
 
 #### Найти средний возраст персонажей каждой расы вселенной Звездных войн
 
-    > starwars %>% filter(!is.na(birth_year)) %>% filter(!is.na(species)) %>% group_by(., species) %>% summarize(mean_age = mean(100 - birth_year)) %>% select(., species, mean_age) |> knitr::kable(format = "markdown")
+``` r
+starwars %>% filter(!is.na(birth_year)) %>% filter(!is.na(species)) %>% group_by(., species) %>% summarize(mean_age = mean(100 - birth_year)) %>% select(., species, mean_age) |> knitr::kable(format = "markdown")
+```
 
 <table>
 <thead>
@@ -724,15 +745,20 @@ library(dplyr)
 
 #### Найти самый распространенный цвет глаз персонажей вселенной Звездных войн.
 
-    > starwars %>% group_by(., eye_color) %>% summarize(count_colors = n()) %>% arrange(., desc(count_colors)) %>% select(., eye_color) %>% slice(1)
+``` r
+starwars %>% group_by(., eye_color) %>% summarize(count_colors = n()) %>% arrange(., desc(count_colors)) %>% select(., eye_color) %>% slice(1)
+```
+
     # A tibble: 1 × 1
       eye_color
       <chr>    
-    1 brown
+    1 brown    
 
 #### Подсчитать среднюю длину имени в каждой расе вселенной Звездных войн.
 
-    > starwars %>% filter(!is.na(species)) %>% group_by(., species) %>% summarize(mean_len = mean(nchar(name))) %>% select(., species, mean_len) |> knitr::kable(format = "markdown")
+``` r
+starwars %>% filter(!is.na(species)) %>% group_by(., species) %>% summarize(mean_len = mean(nchar(name))) %>% select(., species, mean_len) |> knitr::kable(format = "markdown")
+```
 
 <table>
 <thead>
