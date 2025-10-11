@@ -18,7 +18,7 @@ dolgov18012005@yandex.ru
 
 ## Задание
 
-Используя программный пакет swirl, освоить базовые операции в языке
+Используя программный пакет dplyr, освоить базовые операции в языке
 программирования R.
 
 ## Ход работы
@@ -43,47 +43,55 @@ dolgov18012005@yandex.ru
         войн.
 2.  Оформить отчет в соответствии с шаблоном
 
-> library(dplyr)
+### Шаг 1
 
-Attaching package: ‘dplyr’
+Подключаем библиотеку dplyr
 
-The following objects are masked from ‘package:stats’:
+    > library(dplyr)
 
-    filter, lag
+    Attaching package: ‘dplyr’
 
-The following objects are masked from ‘package:base’:
+    The following objects are masked from ‘package:stats’:
 
-    intersect, setdiff, setequal, union
+        filter, lag
 
-> starwars %\>% nrow() \[1\] 87
+    The following objects are masked from ‘package:base’:
 
-> starwars %\>% ncol() \[1\] 14
+        intersect, setdiff, setequal, union
 
-> starwars %\>% glimpse() Rows: 87 Columns: 14 $ name <chr> “Luke
-> Skywalker”, “C-3PO”, “R2-D2”, “Darth Vader”, “Leia Organa”, “O… $
-> height <int> 172, 167, 96, 202, 150, 178, 165, 97, 183, 182, 188, 180,
-> 228, 180, … $ mass <dbl> 77.0, 75.0, 32.0, 136.0, 49.0, 120.0, 75.0,
-> 32.0, 84.0, 77.0, 84.0, … $ hair_color <chr>”blond”, NA, NA, “none”,
-> “brown”, “brown, grey”, “brown”, NA, “black… $ skin_color <chr>”fair”,
-> “gold”, “white, blue”, “white”, “light”, “light”, “light”, “… $
-> eye_color <chr>”blue”, “yellow”, “red”, “yellow”, “brown”, “blue”,
-> “blue”, “red”, “… $ birth_year <dbl> 19.0, 112.0, 33.0, 41.9, 19.0,
-> 52.0, 47.0, NA, 24.0, 57.0, 41.9, 64.… $ sex <chr>”male”, “none”,
-> “none”, “male”, “female”, “male”, “female”, “none”, … $ gender <chr>
-> “masculine”, “masculine”, “masculine”, “masculine”, “feminine”, “mas…
-> $ homeworld <chr>”Tatooine”, “Tatooine”, “Naboo”, “Tatooine”,
-> “Alderaan”, “Tatooine”,… $ species <chr> “Human”, “Droid”, “Droid”,
-> “Human”, “Human”, “Human”, “Human”, “Droi… $ films <list> \<”A New
-> Hope”, “The Empire Strikes Back”, “Return of the Jedi”, “Re… $
-> vehicles <list> \<”Snowspeeder”, “Imperial Speeder Bike”\>, \<\>,
-> \<\>, \<\>, “Imperial Spe… $ starships <list> \<”X-wing”, “Imperial
-> shuttle”\>, \<\>, \<\>, “TIE Advanced x1”, \<\>, \<\>, …
+#### Сколько строк в датафрейме?
 
-> starwars %\>% select(., species) %\>% unique(.) |\>
-> knitr::kable(format = “markdown”)
+    > starwars %>% nrow()
+    [1] 87
 
-> starwars %\>% select(., species) %\>% filter(!is.na(species)) %\>%
-> unique(.) %\>% count(.) |\> knitr::kable(format = “markdown”)
+#### Сколько столбцов в датафрейме?
+
+    > starwars %>% ncol()
+    [1] 14
+
+#### Как просмотреть примерный вид датафрейма?
+
+    > starwars %>% glimpse()
+    Rows: 87
+    Columns: 14
+    $ name       <chr> "Luke Skywalker", "C-3PO", "R2-D2", "Darth Vader", "Leia Organa", "O…
+    $ height     <int> 172, 167, 96, 202, 150, 178, 165, 97, 183, 182, 188, 180, 228, 180, …
+    $ mass       <dbl> 77.0, 75.0, 32.0, 136.0, 49.0, 120.0, 75.0, 32.0, 84.0, 77.0, 84.0, …
+    $ hair_color <chr> "blond", NA, NA, "none", "brown", "brown, grey", "brown", NA, "black…
+    $ skin_color <chr> "fair", "gold", "white, blue", "white", "light", "light", "light", "…
+    $ eye_color  <chr> "blue", "yellow", "red", "yellow", "brown", "blue", "blue", "red", "…
+    $ birth_year <dbl> 19.0, 112.0, 33.0, 41.9, 19.0, 52.0, 47.0, NA, 24.0, 57.0, 41.9, 64.…
+    $ sex        <chr> "male", "none", "none", "male", "female", "male", "female", "none", …
+    $ gender     <chr> "masculine", "masculine", "masculine", "masculine", "feminine", "mas…
+    $ homeworld  <chr> "Tatooine", "Tatooine", "Naboo", "Tatooine", "Alderaan", "Tatooine",…
+    $ species    <chr> "Human", "Droid", "Droid", "Human", "Human", "Human", "Human", "Droi…
+    $ films      <list> <"A New Hope", "The Empire Strikes Back", "Return of the Jedi", "Re…
+    $ vehicles   <list> <"Snowspeeder", "Imperial Speeder Bike">, <>, <>, <>, "Imperial Spe…
+    $ starships  <list> <"X-wing", "Imperial shuttle">, <>, <>, "TIE Advanced x1", <>, <>, …
+
+#### Сколько уникальных рас персонажей (species) представлено в данных?
+
+    > starwars %>% select(., species) %>% filter(!is.na(species)) %>% unique(.) %>% count(.) |> knitr::kable(format = "markdown")
 
 <table>
 <thead>
@@ -98,8 +106,9 @@ The following objects are masked from ‘package:base’:
 </tbody>
 </table>
 
-> starwars %\>% arrange(., desc(height)) %\>% select(name) %\>% slice(1)
-> |\> knitr::kable(format = “markdown”)
+#### Найти самого высокого персонажа.
+
+    > starwars %>% arrange(., desc(height)) %>% select(name) %>% slice(1)  |> knitr::kable(format = "markdown")
 
 <table>
 <thead>
@@ -114,8 +123,9 @@ The following objects are masked from ‘package:base’:
 </tbody>
 </table>
 
-> starwars %\>% filter(height \< 170) %\>% select(., name, height)|\>
-> knitr::kable(format = “markdown”)
+#### Найти всех персонажей ниже 170
+
+    > starwars %>% filter(height < 170) %>% select(., name, height)|> knitr::kable(format = "markdown")
 
 <table>
 <thead>
@@ -216,8 +226,9 @@ The following objects are masked from ‘package:base’:
 </tbody>
 </table>
 
-> starwars %\>% mutate(., imt = mass / (height^2)) %\>% select(., name,
-> imt) |\> knitr::kable(format = “markdown”)
+#### Подсчитать ИМТ (индекс массы тела) для всех персонажей.
+
+    > starwars %>% mutate(., imt = mass / (height^2)) %>% select(., name, imt) |> knitr::kable(format = "markdown")
 
 <table>
 <thead>
@@ -578,9 +589,9 @@ The following objects are masked from ‘package:base’:
 </tbody>
 </table>
 
-> starwars %\>% mutate(., vut = mass / height) %\>% select(., name, vut)
-> %\>% arrange(., vut) %\>% slice(., 1:10) |\> knitr::kable(format =
-> “markdown”)
+#### Найти 10 самых “вытянутых” персонажей. “Вытянутость” оценить по отношению массы (mass) к росту (height) персонажей
+
+    > starwars %>% mutate(., vut = mass / height) %>% select(., name, vut) %>% arrange(., vut) %>% slice(., 1:10) |> knitr::kable(format = "markdown")
 
 <table>
 <thead>
@@ -633,10 +644,252 @@ The following objects are masked from ‘package:base’:
 </tbody>
 </table>
 
-> starwars %\>% + group_by(., species) %\>% + summarise(., mean(height))
-> \# A tibble: 38 × 2 species `mean(height)` <chr> <dbl> 1 Aleena 79 2
-> Besalisk 198 3 Cerean 198 4 Chagrian 196 5 Clawdite 168 6 Droid NA 7
-> Dug 112 8 Ewok 88 9 Geonosian 183 10 Gungan 209. \# ℹ 28 more rows \#
-> ℹ Use `print(n = ...)` to see more rows
+#### Найти средний возраст персонажей каждой расы вселенной Звездных войн
 
-### Шаг 1
+    > starwars %>% filter(!is.na(birth_year)) %>% filter(!is.na(species)) %>% group_by(., species) %>% summarize(mean_age = mean(100 - birth_year)) %>% select(., species, mean_age) |> knitr::kable(format = "markdown")
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">species</th>
+<th style="text-align: right;">mean_age</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Cerean</td>
+<td style="text-align: right;">8.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: right;">46.66667</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ewok</td>
+<td style="text-align: right;">92.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Gungan</td>
+<td style="text-align: right;">48.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Human</td>
+<td style="text-align: right;">46.25769</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hutt</td>
+<td style="text-align: right;">-500.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Kel Dor</td>
+<td style="text-align: right;">78.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mirialan</td>
+<td style="text-align: right;">51.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mon Calamari</td>
+<td style="text-align: right;">59.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rodian</td>
+<td style="text-align: right;">56.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Trandoshan</td>
+<td style="text-align: right;">47.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Twi’lek</td>
+<td style="text-align: right;">52.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Wookiee</td>
+<td style="text-align: right;">-100.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Yoda’s species</td>
+<td style="text-align: right;">-796.00000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Zabrak</td>
+<td style="text-align: right;">46.00000</td>
+</tr>
+</tbody>
+</table>
+
+#### Найти самый распространенный цвет глаз персонажей вселенной Звездных войн.
+
+    > starwars %>% group_by(., eye_color) %>% summarize(count_colors = n()) %>% arrange(., desc(count_colors)) %>% select(., eye_color) %>% slice(1)
+    # A tibble: 1 × 1
+      eye_color
+      <chr>    
+    1 brown
+
+#### Подсчитать среднюю длину имени в каждой расе вселенной Звездных войн.
+
+    > starwars %>% filter(!is.na(species)) %>% group_by(., species) %>% summarize(mean_len = mean(nchar(name))) %>% select(., species, mean_len) |> knitr::kable(format = "markdown")
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">species</th>
+<th style="text-align: right;">mean_len</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Aleena</td>
+<td style="text-align: right;">12.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Besalisk</td>
+<td style="text-align: right;">15.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Cerean</td>
+<td style="text-align: right;">12.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Chagrian</td>
+<td style="text-align: right;">10.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Clawdite</td>
+<td style="text-align: right;">10.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: right;">4.833333</td>
+</tr>
+<tr>
+<td style="text-align: left;">Dug</td>
+<td style="text-align: right;">7.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ewok</td>
+<td style="text-align: right;">21.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Geonosian</td>
+<td style="text-align: right;">17.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Gungan</td>
+<td style="text-align: right;">11.666667</td>
+</tr>
+<tr>
+<td style="text-align: left;">Human</td>
+<td style="text-align: right;">11.342857</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hutt</td>
+<td style="text-align: right;">21.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Iktotchi</td>
+<td style="text-align: right;">11.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Kaleesh</td>
+<td style="text-align: right;">8.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Kaminoan</td>
+<td style="text-align: right;">7.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Kel Dor</td>
+<td style="text-align: right;">8.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mirialan</td>
+<td style="text-align: right;">14.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mon Calamari</td>
+<td style="text-align: right;">6.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Muun</td>
+<td style="text-align: right;">8.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nautolan</td>
+<td style="text-align: right;">9.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Neimodian</td>
+<td style="text-align: right;">11.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pau’an</td>
+<td style="text-align: right;">10.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Quermian</td>
+<td style="text-align: right;">11.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rodian</td>
+<td style="text-align: right;">6.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Skakoan</td>
+<td style="text-align: right;">10.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sullustan</td>
+<td style="text-align: right;">9.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Tholothian</td>
+<td style="text-align: right;">10.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Togruta</td>
+<td style="text-align: right;">8.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Toong</td>
+<td style="text-align: right;">14.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Toydarian</td>
+<td style="text-align: right;">5.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Trandoshan</td>
+<td style="text-align: right;">5.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Twi’lek</td>
+<td style="text-align: right;">11.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Vulptereen</td>
+<td style="text-align: right;">8.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Wookiee</td>
+<td style="text-align: right;">8.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Xexto</td>
+<td style="text-align: right;">7.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Yoda’s species</td>
+<td style="text-align: right;">4.000000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Zabrak</td>
+<td style="text-align: right;">9.500000</td>
+</tr>
+</tbody>
+</table>
+
+### Шаг 2
+
+Отчёт написан и оформлен
