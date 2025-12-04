@@ -69,6 +69,7 @@ library(tidyverse)
     ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 ``` r
+untar(tarfile = "dataset.tar.gz", exdir = "./")
 data <-jsonlite::stream_in(file("caldera_attack_evals_round1_day1_2019-10-20201108.json"), verbose = FALSE)
 ```
 
